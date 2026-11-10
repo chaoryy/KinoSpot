@@ -10,5 +10,5 @@ public class Session {
     private LocalDate date;
     private LocalTime time;
     private String hall;
-    private double price;
+    private int price;
 }
