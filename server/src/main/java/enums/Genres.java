@@ -11,6 +11,13 @@ public enum Genres {
     ROMANCE ("Romance"),
     ADVENTURE ("Adventure");
 
-    Genres(String genreName) {
+    private final String name;
+
+    Genres(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

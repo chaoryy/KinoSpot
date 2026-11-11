@@ -45,8 +45,8 @@ public class InMemoryMovieRepository implements MovieRepository{
         movies.add(m1);
         movies.add(m2);
 
-        LocalDate today = LocalDate.of(2026, 11, 10);
-        LocalDate tomorrow = LocalDate.of(2026, 11, 11);
+        LocalDate today = LocalDate.now();
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
 
         sessions.add(new Session(1, c1, m1, today, LocalTime.of(14, 30), "Зал 1 (IMAX)", 450));
         sessions.add(new Session(2, c1, m1, today, LocalTime.of(18, 0), "Зал 1 (IMAX)", 550));
@@ -56,7 +56,8 @@ public class InMemoryMovieRepository implements MovieRepository{
 
     @Override
     public List<Movie> getAllMovies() {
-        return movies;
+        List<Movie> moviesCopy = new ArrayList<>(movies);
+        return moviesCopy;
     }
 
     @Override
@@ -77,10 +78,30 @@ public class InMemoryMovieRepository implements MovieRepository{
     }
 
     @Override
+    public Session getSessionById(int id) {
+        return sessions.stream().filter(session -> session.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
     public List<Movie> getMoviesByGenre(Genres genre) {
         return movies.stream()
                 .filter(movie -> movie.getGenres().contains(genre))
                 .toList();
 
+    }
+
+    @Override
+    public List<Cinema> getAllCinemas() {
+        List<Cinema> cinemasCopy = new ArrayList<>(cinemas);
+        return cinemasCopy;
+    }
+
+    @Override
+    public Cinema getCinemaById(int id) {
+        return cinemas.stream().filter(cinema -> cinema.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 }
