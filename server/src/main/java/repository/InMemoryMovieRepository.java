@@ -16,11 +16,13 @@ public class InMemoryMovieRepository implements MovieRepository{
     private List<Cinema> cinemas = new ArrayList<>();
 
     public InMemoryMovieRepository() {
+        // 1. Создаем кинотеатры в Бишкеке
         Cinema c1 = new Cinema(1, "Asia Mall (Cinema Park)", "Чынгыза Айтматова, 3");
         Cinema c2 = new Cinema(2, "Bishkek Park", "Киевская, 148");
         cinemas.add(c1);
         cinemas.add(c2);
 
+        // 2. Создаем фильмы (5 штук с разными жанрами)
         Movie m1 = new Movie(
                 1,
                 "Интерстеллар",
@@ -35,23 +37,71 @@ public class InMemoryMovieRepository implements MovieRepository{
         Movie m2 = new Movie(
                 2,
                 "Дюна: Часть вторая",
-                "Пол Атридес объединяется с фремененами, чтобы отомстить заговорщикам.",
+                "Пол Атридес объединяется с фрименами, чтобы отомстить заговорщикам.",
                 2024,
                 166,
                 "https://example.com/dune2.jpg",
                 List.of(Genres.ACTION, Genres.SCIFI, Genres.ADVENTURE),
                 8.3
         );
+
+        Movie m3 = new Movie(
+                3,
+                "Побег из Шоушенка",
+                "История о надежде, дружбе и долгих годах в стенах тюрьмы строгого режима.",
+                1994,
+                142,
+                "https://example.com/shawshank.jpg",
+                List.of(Genres.DRAMA),
+                9.3
+        );
+
+        Movie m4 = new Movie(
+                4,
+                "Человек-паук: Паутина вселенных",
+                "Майлз Моралес отправляется в путешествие по мультивселенной.",
+                2023,
+                140,
+                "https://example.com/spiderman.jpg",
+                List.of(Genres.ACTION, Genres.ADVENTURE),
+                8.7
+        );
+
+        Movie m5 = new Movie(
+                5,
+                "Оппенгеймер",
+                "Биографическая драма о создании атомной бомбы под руководством Роберта Оппенгеймера.",
+                2023,
+                180,
+                "https://example.com/oppenheimer.jpg",
+                List.of(Genres.DRAMA, Genres.THRILLER),
+                8.9
+        );
+
         movies.add(m1);
         movies.add(m2);
+        movies.add(m3);
+        movies.add(m4);
+        movies.add(m5);
 
-        LocalDate today = LocalDate.now();
-        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        // 3. Создаем сеансы на несколько дней вперед
+        LocalDate today = LocalDate.of(2026, 11, 11);
+        LocalDate tomorrow = LocalDate.of(2026, 11, 12);
+        LocalDate dayAfter = LocalDate.of(2026, 11, 13);
 
+        // Сеансы в Asia Mall (c1)
         sessions.add(new Session(1, c1, m1, today, LocalTime.of(14, 30), "Зал 1 (IMAX)", 450));
-        sessions.add(new Session(2, c1, m1, today, LocalTime.of(18, 0), "Зал 1 (IMAX)", 550));
-        sessions.add(new Session(3, c2, m2, today, LocalTime.of(19, 0), "Зал 2", 400));
-        sessions.add(new Session(4, c2, m2, tomorrow, LocalTime.of(15, 0), "Зал 2", 350));
+        sessions.add(new Session(2, c1, m1, today, LocalTime.of(18, 00), "Зал 1 (IMAX)", 550));
+        sessions.add(new Session(3, c1, m2, tomorrow, LocalTime.of(15, 00), "Зал 2", 400));
+        sessions.add(new Session(4, c1, m4, dayAfter, LocalTime.of(12, 00), "Зал 3", 350));
+        sessions.add(new Session(5, c1, m5, tomorrow, LocalTime.of(19, 30), "Зал 1 (IMAX)", 500));
+
+        // Сеансы в Bishkek Park (c2)
+        sessions.add(new Session(6, c2, m2, today, LocalTime.of(19, 00), "Зал 2", 400));
+        sessions.add(new Session(7, c2, m3, today, LocalTime.of(21, 30), "Зал 1", 350));
+        sessions.add(new Session(8, c2, m4, tomorrow, LocalTime.of(16, 30), "Зал 2", 380));
+        sessions.add(new Session(9, c2, m5, dayAfter, LocalTime.of(18, 00), "Зал 1", 450));
+        sessions.add(new Session(10, c2, m1, dayAfter, LocalTime.of(21, 00), "Зал 2", 480));
     }
 
     @Override

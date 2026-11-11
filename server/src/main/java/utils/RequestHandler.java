@@ -23,6 +23,7 @@ public class RequestHandler {
     public void handlePath(HttpExchange exchange) {
         if (!"GET".equals(exchange.getRequestMethod())) {
             responseWriter.sendResponse(exchange, ContentType.PLAIN, HttpCode.METHOD_NOT_ALLOWED, getBytesFrom(HttpCode.METHOD_NOT_ALLOWED));
+            return;
         }
         String[] splitedPath = splitPath(exchange);
         if (splitedPath.length == 0) {
@@ -47,8 +48,8 @@ public class RequestHandler {
             return;
         }
         if (length == 2 || length == 3) {
-            int movieId = parseId(exchange, path[1]);
-            if (movieId == -1) return;
+            Integer movieId = parseId(exchange, path[1]);
+            if (movieId == null) return;
             Movie movie = repository.getMovieById(movieId);
             if (movie == null) {
                 sendNotFound(exchange);
@@ -57,10 +58,12 @@ public class RequestHandler {
             if (length == 2) {
                 response = jsonUtil.toJson(movie);
                 responseWriter.sendResponse(exchange, ContentType.JSON, HttpCode.OK, getBytesFrom(response));
+                return;
             }
             if ("sessions".equals(path[2])) {
                 response = jsonUtil.toJson(repository.getSessionsFor(null, movieId, null));
                 responseWriter.sendResponse(exchange, ContentType.JSON, HttpCode.OK, getBytesFrom(response));
+                return;
             }
 
         }
@@ -76,11 +79,16 @@ public class RequestHandler {
             return;
         }
         if (length == 2) {
-            int sessionId = parseId(exchange, path[1]);
-            if (sessionId == -1) return;
+            Integer sessionId = parseId(exchange, path[1]);
+            if (sessionId == null) return;
             Session session = repository.getSessionById(sessionId);
+            if (session == null) {
+                sendNotFound(exchange);
+                return;
+            }
             response = jsonUtil.toJson(session);
             responseWriter.sendResponse(exchange, ContentType.JSON, HttpCode.OK, getBytesFrom(response));
+            return;
         }
         sendNotFound(exchange);
     }
@@ -94,8 +102,8 @@ public class RequestHandler {
             return;
         }
         if (length == 2 || length == 3) {
-            int cinemaId = parseId(exchange, path[1]);
-            if (cinemaId == -1) return;
+            Integer cinemaId = parseId(exchange, path[1]);
+            if (cinemaId == null) return;
             Cinema cinema = repository.getCinemaById(cinemaId);
             if (cinema == null) {
                 sendNotFound(exchange);
@@ -104,10 +112,12 @@ public class RequestHandler {
             if (length == 2) {
                 response = jsonUtil.toJson(cinema);
                 responseWriter.sendResponse(exchange, ContentType.JSON, HttpCode.OK, getBytesFrom(response));
+                return;
             }
             if ("sessions".equals(path[2])) {
                 response = jsonUtil.toJson(repository.getSessionsFor(cinemaId, null, null));
                 responseWriter.sendResponse(exchange, ContentType.JSON, HttpCode.OK, getBytesFrom(response));
+                return;
             }
 
         }
@@ -120,6 +130,9 @@ public class RequestHandler {
 
     private String[] splitPath(HttpExchange exchange) {
         String uriPath = exchange.getRequestURI().getPath();
+        if (uriPath == null || uriPath.equals("/")) {
+            return new String[0];
+        }
         return uriPath.replaceAll("^/+", "").split("/");
     }
 
@@ -131,12 +144,12 @@ public class RequestHandler {
         return code.toString().getBytes(StandardCharsets.UTF_8);
     }
 
-    private int parseId(HttpExchange exchange, String strId) {
+    private Integer parseId(HttpExchange exchange, String strId) {
         try {
             return Integer.parseInt(strId);
         } catch (NumberFormatException e) {
             responseWriter.sendResponse(exchange, ContentType.PLAIN, HttpCode.BAD_REQUEST, getBytesFrom(HttpCode.BAD_REQUEST));
-            return -1;
+            return null;
         }
 
     }
