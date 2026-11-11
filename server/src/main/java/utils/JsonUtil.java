@@ -11,10 +11,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class JsonUtil {
-    private static Gson gson;
+    private final Gson gson;
 
     public JsonUtil() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new TypeAdapter<LocalDate>() {
+        this.gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new TypeAdapter<LocalDate>() {
                     @Override
                     public void write(JsonWriter jsonWriter, LocalDate date) throws IOException {
                         jsonWriter.value(date != null ? date.toString() : null);
