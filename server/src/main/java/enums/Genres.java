@@ -1,15 +1,15 @@
 package enums;
 
 public enum Genres {
-    ACTION ("Action"),
-    COMEDY ("Comedy"),
-    DRAMA ("Drama"),
-    SCIFI ("Sci-Fi"),
-    FANTASY ("Fantasy"),
-    HORROR ("Horror"),
-    THRILLER ("Thriller"),
-    ROMANCE ("Romance"),
-    ADVENTURE ("Adventure");
+    ACTION ("Боевик"),
+    COMEDY ("Комедия"),
+    DRAMA ("Драма"),
+    SCIFI ("Научная фантастика"),
+    FANTASY ("Фантастика"),
+    HORROR ("Хоррор"),
+    THRILLER ("Триллер"),
+    ROMANCE ("Романтика"),
+    ADVENTURE ("Приключения");
 
     private final String name;
 

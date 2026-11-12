@@ -16,7 +16,6 @@ public class InMemoryMovieRepository implements MovieRepository{
     private List<Cinema> cinemas = new ArrayList<>();
 
     public InMemoryMovieRepository() {
-        // 1. Создаем кинотеатры в Бишкеке
         Cinema c1 = new Cinema(1, "Asia Mall (Cinema Park)", "Чынгыза Айтматова, 3");
         Cinema c2 = new Cinema(2, "Bishkek Park", "Киевская, 148");
         cinemas.add(c1);
@@ -29,7 +28,7 @@ public class InMemoryMovieRepository implements MovieRepository{
                 "Фантастическая драма о путешествии сквозь червоточину в поисках нового дома для человечества.",
                 2014,
                 169,
-                "https://example.com/interstellar.jpg",
+                "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/1600647/4bd1d574-4166-4128-a0a5-e52c8a0538e6/3840x",
                 List.of(Genres.SCIFI, Genres.DRAMA),
                 8.6
         );
@@ -40,7 +39,7 @@ public class InMemoryMovieRepository implements MovieRepository{
                 "Пол Атридес объединяется с фрименами, чтобы отомстить заговорщикам.",
                 2024,
                 166,
-                "https://example.com/dune2.jpg",
+                "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-ott/1652588/2a0000019ae9fc0d582ed774557fe22ee6df/600x900",
                 List.of(Genres.ACTION, Genres.SCIFI, Genres.ADVENTURE),
                 8.3
         );
@@ -51,7 +50,7 @@ public class InMemoryMovieRepository implements MovieRepository{
                 "История о надежде, дружбе и долгих годах в стенах тюрьмы строгого режима.",
                 1994,
                 142,
-                "https://example.com/shawshank.jpg",
+                "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/1599028/0b76b2a2-d1c7-4f04-a284-80ff7bb709a4/600x900",
                 List.of(Genres.DRAMA),
                 9.3
         );
@@ -62,7 +61,7 @@ public class InMemoryMovieRepository implements MovieRepository{
                 "Майлз Моралес отправляется в путешествие по мультивселенной.",
                 2023,
                 140,
-                "https://example.com/spiderman.jpg",
+                "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10893610/4df6ae79-1fef-4a72-b55d-9be66233af1e/600x900",
                 List.of(Genres.ACTION, Genres.ADVENTURE),
                 8.7
         );
@@ -73,7 +72,7 @@ public class InMemoryMovieRepository implements MovieRepository{
                 "Биографическая драма о создании атомной бомбы под руководством Роберта Оппенгеймера.",
                 2023,
                 180,
-                "https://example.com/oppenheimer.jpg",
+                "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/4486454/c5292109-642c-4ab0-894a-cc304e1bcec4/600x900",
                 List.of(Genres.DRAMA, Genres.THRILLER),
                 8.9
         );
