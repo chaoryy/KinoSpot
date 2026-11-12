@@ -22,8 +22,13 @@ class KinoSpotApp extends StatelessWidget {
       value: repository,
       child: MaterialApp(
         title: 'КиноSpot',
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF5B4BDB)),
+          scaffoldBackgroundColor: const Color(0xFFF5F5F5),
+        ),
         home: BlocProvider(
-          create: (_) => MoviesBloc(repository)..add(LoadMovies()),
+          create: (context) => MoviesBloc(repository)..add(LoadMovies()),
           child: const MoviesPage(),
         ),
       ),

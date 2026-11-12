@@ -12,12 +12,14 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
 
   MoviesBloc(this._repository) : super(MoviesInitial()) {
     on<LoadMovies>(_onLoadMovies);
+    on<SearchMovies>(_onSearchMovies);
+    on<FilterByGenre>(_onFilterByGenre);
   }
 
   Future<void> _onLoadMovies(
-    LoadMovies event,
-    Emitter<MoviesState> emit,
-  ) async {
+      LoadMovies event,
+      Emitter<MoviesState> emit,
+      ) async {
     emit(MoviesLoading());
     try {
       final List<Movie> movies = await _repository.getMovies();
@@ -28,6 +30,28 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
       emit(MoviesNetworkError(e.message));
     } catch (e) {
       emit(MoviesUnknownError(e.toString()));
+    }
+  }
+
+  void _onSearchMovies(SearchMovies event, Emitter<MoviesState> emit) {
+    final currentState = state;
+    if (currentState is MoviesLoaded) {
+      emit(MoviesLoaded(
+        currentState.allMovies,
+        searchQuery: event.query,
+        selectedGenre: currentState.selectedGenre,
+      ));
+    }
+  }
+
+  void _onFilterByGenre(FilterByGenre event, Emitter<MoviesState> emit) {
+    final currentState = state;
+    if (currentState is MoviesLoaded) {
+      emit(MoviesLoaded(
+        currentState.allMovies,
+        searchQuery: currentState.searchQuery,
+        selectedGenre: event.genreName,
+      ));
     }
   }
 }
