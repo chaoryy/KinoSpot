@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kinospot/bloc/movies/movies_bloc.dart';
+import 'package:kinospot/bloc/movies/movies_event.dart';
 import 'package:kinospot/data/api/api_service.dart';
 import 'package:kinospot/data/repository/kino_spot_repository.dart';
+import 'package:kinospot/ui/movies_page.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() {
+  final repository = KinoSpotRepository(ApiService());
+  runApp(KinoSpotApp(repository: repository));
+}
 
-  try {
-    final apiService = ApiService();
-    final repository = KinoSpotRepository(apiService);
-    final movies = await repository.getMovies();
-    print('Успешно загружено фильмов: ${movies.length}');
-    for (var movie in movies) {
-      print('- ${movie.name} (${movie.year})');
-    }
+class KinoSpotApp extends StatelessWidget {
+  final KinoSpotRepository repository;
 
-    final sessions = await repository.getSessionFor(1);
-    print('Успешно загружено сеансов: ${movies.length}');
-    for (var session in sessions) {
-      print('- ${session.movie.name} (${session.time})');
-    }
-  } catch (e) {
-    print('Ошибка при запросе: $e');
+  const KinoSpotApp({super.key, required this.repository});
+
+  @override
+  Widget build(BuildContext context) {
+    return RepositoryProvider.value(
+      value: repository,
+      child: MaterialApp(
+        title: 'КиноSpot',
+        home: BlocProvider(
+          create: (_) => MoviesBloc(repository)..add(LoadMovies()),
+          child: const MoviesPage(),
+        ),
+      ),
+    );
   }
 }
